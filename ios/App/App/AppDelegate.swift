@@ -2,7 +2,6 @@ import UIKit
 import Capacitor
 import AVFoundation
 import MediaPlayer
-import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -11,10 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // 1. Initialize Google Mobile Ads SDK for iOS
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        
-        // 2. Setup 24/7 Native Background Audio Session (Spotify / Apple Music Grade)
+        // 1. Setup 24/7 Native Background Audio Session (Spotify / Apple Music Grade)
         do {
             try AVAudioSession.sharedInstance().setCategory(
                 .playback,
@@ -26,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("[Souliff iOS] Failed to activate 24/7 Background Audio Session: \(error)")
         }
         
-        // 3. Setup Remote Command Center (Lockscreen & AirPods Controls)
+        // 2. Setup Remote Command Center (Lockscreen & AirPods Controls)
         setupRemoteCommandCenter()
         setupNowPlayingLiveStream()
         
