@@ -21,18 +21,24 @@ jobs:
         run: |
           npm install
 
+      - name: Backup Custom iOS Assets
+        run: |
+          mkdir -p /tmp/ios_backup
+          cp -r ios/App/App/Assets.xcassets /tmp/ios_backup/ || true
+          cp ios/App/App/Info.plist /tmp/ios_backup/ || true
+          cp ios/App/App/AppDelegate.swift /tmp/ios_backup/ || true
+
       - name: Sync Capacitor iOS
         run: |
           rm -rf ios
           npx cap add ios
           npx cap sync ios
 
-      - name: Inject Spotify-Grade Background Audio & AdMob into Info.plist
+      - name: Restore Custom iOS AppIcon & Audio Code
         run: |
-          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes array" ios/App/App/Info.plist || true
-          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:0 string audio" ios/App/App/Info.plist || true
-          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:1 string processing" ios/App/App/Info.plist || true
-          /usr/libexec/PlistBuddy -c "Set :GADApplicationIdentifier string ca-app-pub-8036094597229084~9200530680" ios/App/App/Info.plist || /usr/libexec/PlistBuddy -c "Add :GADApplicationIdentifier string ca-app-pub-8036094597229084~9200530680" ios/App/App/Info.plist
+          cp -rf /tmp/ios_backup/Assets.xcassets ios/App/App/ || true
+          cp -f /tmp/ios_backup/Info.plist ios/App/App/Info.plist || true
+          cp -f /tmp/ios_backup/AppDelegate.swift ios/App/App/AppDelegate.swift || true
 
       - name: Build iOS App with Xcode (ARM64)
         run: |
@@ -55,13 +61,13 @@ jobs:
           echo "Found App bundle at: $APP_PATH"
           cp -r "$APP_PATH" build/Payload/Souliff.app
           cd build
-          zip -qr Souliff_Free_iOS_1.38_Sideloadly.ipa Payload
+          zip -qr Souliff_Free_iOS_1.39_Sideloadly.ipa Payload
           cd ..
           ls -la build/
 
       - name: Upload Sideloadly IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Souliff_Free_iOS_1.38_Sideloadly_IPA
-          path: build/Souliff_Free_iOS_1.38_Sideloadly.ipa
+          name: Souliff_Free_iOS_1.39_Sideloadly_IPA
+          path: build/Souliff_Free_iOS_1.39_Sideloadly.ipa
           retention-days: 30

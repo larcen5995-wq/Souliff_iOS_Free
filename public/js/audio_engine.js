@@ -107,13 +107,16 @@ class AudioEngine {
     let trackGain = null;
     let sourceNode = null;
 
-    if (this.ctx) {
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (window.webkit && window.webkit.messageHandlers);
+    audio.volume = Math.max(0, Math.min(1.0, volume * this.masterVolume));
+
+    // On iOS Safari / WKWebView, direct HTML5 Audio does not freeze when backgrounded
+    if (!isIOS && this.ctx) {
       try {
         sourceNode = this.ctx.createMediaElementSource(audio);
         trackGain = this.ctx.createGain();
         trackGain.gain.setValueAtTime(volume, this.ctx.currentTime);
 
-        // Check for Tinnitus Notch filter
         if (this.tinnitusEngine && this.tinnitusEngine.isNotchEnabled) {
           const notch = this.tinnitusEngine.createTrackNotchFilter();
           this.tinnitusEngine.notchFilters.set(id, notch);

@@ -1,6 +1,6 @@
 {
   "name": "souliff-ios-free",
-  "version": "1.3.8",
+  "version": "1.3.9",
   "description": "Souliff Relaxing Sounds iOS Free Version",
   "scripts": {
     "build": "echo 'build ok'"

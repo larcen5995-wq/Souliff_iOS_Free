@@ -1,10 +1,10 @@
 {
   "appId": "com.souliff.relaxing.free",
-  "appName": "Souliff",
+  "appName": "Souliff Free",
   "webDir": "public",
   "bundledWebRuntime": false,
   "ios": {
-    "scheme": "Souliff",
+    "scheme": "SouliffFree",
     "handleApplicationURL": true,
     "allowsLinkPreview": false,
     "scrollEnabled": false
