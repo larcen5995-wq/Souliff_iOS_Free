@@ -26,26 +26,37 @@ jobs:
           npx cap add ios || true
           npx cap sync ios
 
+      - name: Inject Spotify-Grade Background Audio & AdMob into Info.plist
+        run: |
+          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes array" ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:0 string audio" ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Add :UIBackgroundModes:1 string processing" ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Set :GADApplicationIdentifier string ca-app-pub-8036094597229084~9200530680" ios/App/App/Info.plist || /usr/libexec/PlistBuddy -c "Add :GADApplicationIdentifier string ca-app-pub-8036094597229084~9200530680" ios/App/App/Info.plist
+
       - name: Build iOS App with Xcode (ARM64)
         run: |
           cd ios/App
-          xcodebuild clean archive \
+          pod install || true
+          xcodebuild clean build \
             -workspace App.xcworkspace \
             -scheme App \
             -configuration Release \
-            -archivePath ../../build/Souliff.xcarchive \
             -sdk iphoneos \
+            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY=""
 
-      - name: Package Mach-O App into Sideloadly-Ready IPA
+      - name: Package Sideloadly-Ready IPA
         run: |
           mkdir -p build/Payload
-          cp -r build/Souliff.xcarchive/Products/Applications/App.app build/Payload/Souliff.app
+          APP_PATH=$(find ios/App/build -name "App.app" -type d | head -n 1)
+          echo "Found App bundle at: $APP_PATH"
+          cp -r "$APP_PATH" build/Payload/Souliff.app
           cd build
           zip -qr Souliff_Free_iOS_1.38_Sideloadly.ipa Payload
           cd ..
+          ls -la build/
 
       - name: Upload Sideloadly IPA Artifact
         uses: actions/upload-artifact@v4
