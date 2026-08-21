@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Souliff (소울리프) - 24시간 힐링 사운드스케이프 & 이명 케어</title>
+  <link rel="icon" href="assets/icons/souliff_icon.png">
+  <link rel="apple-touch-icon" href="assets/icons/souliff_icon.png">
+
+  <!-- Tailwind CSS & Plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Google Fonts: EB Garamond, Literata, Inter & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Custom App CSS -->
+  <link rel="stylesheet" href="css/style.css?v=1.2.2" />
+
+    <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "background": "var(--bg-sand, #fcf9f4)",
+            "surface": "var(--bg-sand, #fcf9f4)",
+            "surface-container-lowest": "var(--surface-lowest, #ffffff)",
+            "surface-container-low": "var(--surface-low, #f6f3ee)",
+            "surface-container": "var(--surface-mid, #f0ede8)",
+            "surface-container-high": "var(--surface-high, #ebe8e3)",
+            "surface-container-highest": "var(--surface-highest, #e5e2dd)",
+            "primary": "var(--primary-dark, #5e1700)",
+            "primary-container": "var(--primary-terracotta, #7c2d12)",
+            "secondary": "var(--secondary-rust, #9b4500)",
+            "accent-gold": "var(--accent-gold, #d97706)",
+            "on-surface": "var(--text-charcoal, #1c1c19)",
+            "on-surface-variant": "var(--text-muted, #55423d)",
+            "outline-variant": "var(--outline-subtle, #dcc1b9)"
+          },
+          fontFamily: {
+            "reading-body": ["Literata", "Georgia", "serif"],
+            "headline-lg": ["EB Garamond", "Georgia", "serif"],
+            "ui": ["Inter", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#181614] text-on-surface min-h-screen flex items-center justify-center p-0 sm:p-6 antialiased selection:bg-accent-gold/20 select-text overflow-hidden font-ui">
+
+  <!-- PHONE FRAME CONTAINER (Real Smartphone Mockup on Desktop, Fullscreen on Mobile) -->
+  <div class="phone-frame w-full max-w-[420px] h-[100dvh] sm:h-[860px] bg-background sm:rounded-[48px] p-2 sm:p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.6),0_0_0_12px_#2d2926,0_0_0_14px_#443f3b] flex flex-col relative overflow-hidden transition-all duration-300">
+
+    <!-- Phone Top Speaker / Dynamic Island Notch (Desktop Only) -->
+    <div class="hidden sm:flex absolute top-0 left-0 right-0 z-50 justify-center pt-2 pointer-events-none">
+      <div class="w-24 h-3 bg-[#201d1a] rounded-full flex items-center justify-end px-2.5">
+        <div class="w-1 h-1 rounded-full bg-[#111] mr-1"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-[#1a2b40] ring-1 ring-white/10"></div>
+      </div>
+    </div>
+
+    <!-- 1. TOP APP BAR (Sticky Header with Full Safe Area Inset) -->
+        <!-- 1. TOP APP BAR (Sticky Header with Full Safe Area Inset) -->
+    <header class="app-header bg-surface/95 backdrop-blur-md text-primary border-b border-outline-variant/30 flex justify-between items-center w-full z-30 shadow-xs shrink-0 px-3.5 py-2.5" style="min-height: 60px;">
+      
+      <!-- Left: Menu / Preset List Icon -->
+      <button onclick="document.querySelector('[data-tab-target=browse]').click()" class="hover:bg-surface-container transition-colors p-1.5 rounded-full flex items-center justify-center text-primary shrink-0" title="전체 사운드 목록">
+        <span class="material-symbols-outlined text-2xl">library_music</span>
+      </button>
+
+      <!-- Center: App Brand Title -->
+      <div class="flex items-center justify-center cursor-pointer px-2 text-center" onclick="document.querySelector('[data-tab-target=home]').click()">
+        <h1 data-i18n="appTitle" class="font-headline-lg text-2xl font-bold text-primary tracking-tight leading-none whitespace-nowrap">
+          Souliff
+        </h1>
+      </div>
+
+      <!-- Right: Actions (Language Dropdown, Sleep Timer, Theme, Active Badge) -->
+      <div class="flex items-center space-x-1.5 shrink-0">
+        
+        <!-- 🌍 Multi-Language Dropdown Button -->
+        <div class="relative shrink-0">
+          <button id="lang-select-btn" class="flex items-center whitespace-nowrap px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-[11px] font-semibold transition-colors">
+            <span id="lang-current-label" class="whitespace-nowrap">🇰🇷 한국어</span>
+            <span class="material-symbols-outlined text-xs opacity-60 ml-0.5">arrow_drop_down</span>
+          </button>
+          
+          <!-- Language Dropdown Menu -->
+          <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 max-h-72 overflow-y-auto bg-surface-container-lowest border border-outline-variant/30 rounded-2xl shadow-2xl py-1.5 hidden z-50 hide-scrollbar">
+          </div>
+        </div>
+
+        <!-- Sleep Timer Trigger Button -->
+        <button id="top-timer-btn" title="수면 타이머" class="p-1 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors flex items-center shrink-0">
+          <span class="material-symbols-outlined text-lg text-accent-gold" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+        </button>
+
+        <!-- ⚙️ Theme & Design Settings Trigger Button -->
+        <button id="top-settings-btn" title="테마 및 디자인 설정" class="p-1 rounded-full hover:bg-surface-container text-on-surface-variant transition-colors flex items-center shrink-0">
+          <span class="material-symbols-outlined text-lg text-primary">palette</span>
+        </button>
+
+        <!-- Active Tracks Badge -->
+        <span id="active-track-count-badge" class="whitespace-nowrap px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-[10px] font-semibold shrink-0">
+          0개 재생
+        </span>
+
+      </div>
+    </header>
+
+    <!-- 2. MAIN SCROLLABLE CONTENT BODY -->
+    <div class="app-scroll-body flex-grow overflow-y-auto hide-scrollbar relative pb-48">
+
+        <!-- 📢 AdMob Banner Container -->
+  
+
+  <!-- ========================================================
+           TAB A: HOME (오늘의 힐링 사운드 카드, 추천 믹스, 호흡 가이드)
+           ======================================================== -->
+      <section id="tab-view-home" class="tab-view w-full app-content-padding py-4 flex flex-col gap-4">
+
+        <!-- Welcome Header -->
+        <div class="flex flex-col gap-0.5">
+          <p data-i18n="greeting" class="text-[11px] text-on-surface-variant uppercase tracking-widest font-semibold">DAILY REST & HEALING</p>
+          <h2 data-i18n="heroTitle" class="font-headline-lg text-2xl font-bold text-primary">평안과 깊은 쉼을 누리세요.</h2>
+        </div>
+
+        <!-- 🌟 오늘의 대표 힐링 사운드 카드 -->
+        <div class="relative w-full rounded-2xl overflow-hidden shadow-md border border-outline-variant/30 flex flex-col min-h-[220px] justify-end p-5 bg-cover bg-center text-white transition-all duration-500 cursor-pointer group" style="background-image: linear-gradient(to top, rgba(94, 23, 0, 0.92) 0%, rgba(94, 23, 0, 0.45) 60%, rgba(0,0,0,0.15) 100%), url('https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=800&auto=format&fit=crop');">
+          <div class="relative z-10 flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-secondary-fixed text-base" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                <span data-i18n="todayHarmonyBadge" class="text-[11px] text-secondary-fixed uppercase tracking-wider font-bold">오늘의 힐링 하모니</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white font-mono">5.35 Hz EEG</span>
+            </div>
+            <blockquote data-i18n="heroQuote" class="font-headline-lg text-lg leading-snug font-serif">
+              "고요한 밤 숲속의 빗소리와 마음을 진정시키는 5.35Hz 세타파 뇌파 동조"
+            </blockquote>
+            <div class="flex justify-between items-center mt-1">
+              <p data-i18n="heroSub" class="text-xs text-secondary-fixed-dim font-semibold">창문 밤비 + 세타파 + 모닥불</p>
+              <button onclick="document.querySelectorAll('#home-presets-grid > div')[0].click()" class="flex items-center space-x-1 px-3 py-1 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-xs font-semibold text-white transition-all active:scale-95">
+                <span class="material-symbols-outlined text-sm">play_arrow</span>
+                <span data-i18n="heroListenBtn">즉시 믹싱 듣기</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🧘 4-7-8 테라피 심호흡 가이드 카드 -->
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-3.5 shadow-sm flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="relative w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <div class="breath-circle absolute inset-0 rounded-xl bg-accent-gold/20"></div>
+              <span class="material-symbols-outlined text-xl relative z-10">air</span>
+            </div>
+            <div>
+              <div data-i18n="breathGuideTitle" class="text-[11px] text-on-surface-variant font-medium">4-7-8 긴장완화 심호흡 가이드</div>
+              <h4 data-i18n="breathGuideSub" class="font-headline-lg text-base font-bold text-primary">들숨 4초 ➜ 멈춤 7초 ➜ 날숨 8초</h4>
+            </div>
+          </div>
+          <span data-i18n="breathBadge" class="text-[10px] font-bold text-accent-gold px-2 py-1 bg-accent-gold/10 rounded-lg">마음안정</span>
+        </div>
+
+        <!-- 🎚️ 추천 힐링 믹스 섹션 -->
+        <div class="flex flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <h3 data-i18n="presetsTitle" class="font-headline-lg text-lg font-bold text-primary">추천 힐링 믹스 (Presets)</h3>
+            <span data-i18n="presetsSub" class="text-[11px] text-on-surface-variant">원터치 자동 믹싱</span>
+          </div>
+          <div id="home-presets-grid" class="grid grid-cols-1 gap-2.5">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================
+           TAB B: MIXER (다중 트랙 독립 볼륨 조절 & 믹서)
+           ======================================================== -->
+      <section id="tab-view-mixer" class="tab-view w-full app-content-padding py-4 flex-col gap-3.5 hidden">
+        
+        <div class="flex items-center justify-between border-b border-outline-variant/20 pb-2">
+          <div>
+            <h2 data-i18n="mixerTitle" class="font-headline-lg text-xl font-bold text-primary">사운드 믹서 (Mixer)</h2>
+            <p data-i18n="mixerDesc" class="text-[11px] text-on-surface-variant">재생 중인 각 소리의 음량을 조절하여 나만의 소리를 만드세요.</p>
+          </div>
+          <button id="mixer-stop-all-btn" data-i18n="mixerStopAll" class="text-xs text-primary/70 hover:text-primary font-bold underline">전체 끄기</button>
+        </div>
+
+        <!-- Master Volume Box -->
+        <div class="p-3.5 rounded-2xl bg-surface-container border border-outline-variant/30 flex flex-col gap-2">
+          <div class="flex justify-between items-center text-xs">
+            <span data-i18n="masterVolume" class="font-bold text-primary">마스터 전체 볼륨 (Master Volume)</span>
+            <span class="font-mono text-accent-gold font-bold">85%</span>
+          </div>
+          <input id="master-volume-slider" type="range" min="0" max="100" value="85" class="w-full">
+        </div>
+
+        <!-- Active Sliders List -->
+        <div id="mixer-active-tracks-list" class="space-y-2.5 pt-1">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="mixer-empty-state" class="py-16 text-center flex flex-col items-center justify-center gap-2">
+          <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-1">
+            <span class="material-symbols-outlined text-2xl">tune</span>
+          </div>
+          <p data-i18n="mixerEmpty" class="font-headline-lg text-base font-bold text-primary">현재 재생 중인 사운드가 없습니다.</p>
+          <p data-i18n="mixerEmptySub" class="text-xs text-on-surface-variant max-w-xs">
+            [탐색] 탭에서 원하는 사운드를 터치하여 추가해 보세요.
+          </p>
+          <button onclick="document.querySelector('[data-tab-target=browse]').click()" data-i18n="browseBtn" class="mt-2 px-4 py-2 rounded-xl bg-primary text-white font-bold text-xs shadow-sm hover:bg-primary-container active:scale-95 transition-all">
+            사운드 탐색하기
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ========================================================
+           TAB C: BROWSE (7개 카테고리 105개 사운드 라이브러리)
+           ======================================================== -->
+      <section id="tab-view-browse" class="tab-view w-full app-content-padding py-4 flex-col gap-3.5 hidden">
+        
+        <!-- Header & Search -->
+        <div class="flex flex-col gap-2.5">
+          <div class="text-center">
+            <h2 data-i18n="browseTitle" class="font-headline-lg text-xl font-bold text-primary">사운드 탐색 (Sound Library)</h2>
+            <p data-i18n="browseDesc" class="text-[11px] text-on-surface-variant">자연의 소리, 뇌파, 명상음 등 105종의 힐링 사운드를 둘러보세요.</p>
+          </div>
+
+          <div class="relative w-full">
+            <span class="material-symbols-outlined absolute left-3 top-2 text-on-surface-variant text-base">search</span>
+            <input id="browse-search-input" data-i18n-placeholder="searchPlaceholder" type="text" placeholder="사운드 검색 (빗소리, 세타파, 모닥불, 싱잉볼...)" class="w-full pl-9 pr-3 py-2 text-xs bg-surface-container-lowest rounded-xl border border-outline-variant/40 focus:outline-none focus:border-primary text-on-surface">
+          </div>
+
+          <!-- Category Chips (Multi-line 2~3 rows layout for immediate visibility) -->
+                    <!-- Category Chips (Multi-line 2~3 rows layout for immediate visibility) -->
+          <div class="flex flex-wrap gap-1.5 justify-start items-center pb-1">
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-primary text-white font-bold transition-all shadow-xs shrink-0" data-cat="all" data-i18n="catAll">전체 (105)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="rain" data-i18n="catRain">🌧️ 비 & 날씨 (32)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="nature" data-i18n="catNature">🌲 숲, 물, 불 (29)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="meditation" data-i18n="catMeditation">🧘 명상 & 악기 (18)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="brainwave" data-i18n="catBrainwave">🧠 뇌파 & 주파수 (19)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="tinnitus" data-i18n="catTinnitus">🌀 백색소음 (35)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="spa" data-i18n="catSpa">💆 스파 & 힐링 (34)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="jazz" data-i18n="catJazz">🎷 카페 & 재즈 (34)</button>
+            <button class="category-filter-btn px-2.5 py-1 rounded-full text-[11px] bg-surface-container border border-outline-variant/30 text-on-surface-variant transition-all hover:bg-surface-container-high shrink-0" data-cat="asmr" data-i18n="catAsmr">☕ 일상 & ASMR (19)</button>
+          </div>
+        </div>
+
+        <!-- Sound Cards Grid -->
+        <div id="browse-sounds-grid" class="grid grid-cols-2 gap-3 pb-8">
+          <!-- Populated by JS -->
+        </div>
+
+      </section>
+
+      <!-- ========================================================
+           TAB D: BOOKMARKS (즐겨찾기 목록)
+           ======================================================== -->
+      <section id="tab-view-bookmarks" class="tab-view w-full app-content-padding py-4 flex-col gap-3.5 hidden">
+        
+                <div class="border-b border-outline-variant/20 pb-2 flex items-center justify-between">
+          <div>
+            <h2 data-i18n="bookmarksTitle" class="font-headline-lg text-xl font-bold text-primary">즐겨찾기 (Favorites)</h2>
+            <p data-i18n="bookmarksDesc" class="text-[11px] text-on-surface-variant">자주 듣는 나만의 힐링 사운드 모음입니다.</p>
+          </div>
+          <button id="clear-bookmarks-btn" class="text-xs text-primary/70 hover:text-primary font-bold underline" data-i18n="clearBookmarksBtn">전체 삭제</button>
+        </div>
+
+        <!-- Bookmarked Grid -->
+        <div id="bookmarks-list-container" class="flex flex-col space-y-3 pb-8">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="bookmarks-empty-state" class="py-16 text-center flex flex-col items-center justify-center gap-2">
+          <div class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-1">
+            <span class="material-symbols-outlined text-2xl">bookmark_border</span>
+          </div>
+          <p data-i18n="bookmarksEmpty" class="font-headline-lg text-base font-bold text-primary">즐겨찾기한 사운드가 없습니다.</p>
+          <p data-i18n="bookmarksEmptySub" class="text-xs text-on-surface-variant max-w-xs">
+            사운드 카드의 북마크(★) 아이콘을 눌러 추가해 보세요.
+          </p>
+          <button onclick="document.querySelector('[data-tab-target=browse]').click()" data-i18n="browseBtn" class="mt-2 px-4 py-2 rounded-xl bg-primary text-white font-bold text-xs shadow-sm hover:bg-primary-container active:scale-95 transition-all">
+            사운드 탐색하기
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ========================================================
+           TAB E: TINNITUS CARE (이명 주파수 맞춤 케어)
+           ======================================================== -->
+      <section id="tab-view-tinnitus" class="tab-view w-full app-content-padding py-4 flex-col gap-3.5 hidden">
+        
+        <div class="border-b border-outline-variant/20 pb-2">
+          <h2 data-i18n="tinnitusTitle" class="font-headline-lg text-xl font-bold text-primary">이명 케어 센터 (Tinnitus Care)</h2>
+          <p data-i18n="tinnitusSub" class="text-[11px] text-on-surface-variant">신경과학 기반 맞춤형 노치 사운드 테라피</p>
+        </div>
+
+        <!-- Explanatory Box -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-primary/10 via-amber-500/10 to-primary/5 border border-accent-gold/40 shadow-xs flex flex-col gap-1">
+          <div class="flex items-center space-x-1.5 text-xs font-bold text-primary">
+            <span class="material-symbols-outlined text-base text-accent-gold" style="font-variation-settings: 'FILL' 1;">hearing_disabled</span>
+            <span data-i18n="tinnitusPrincipleTitle">이명 주파수 완화(Notch) 사운드 원리</span>
+          </div>
+          <p data-i18n="tinnitusPrincipleDesc" class="text-[11px] text-on-surface-variant leading-relaxed mt-0.5">
+            본인의 이명 주파수를 선택하면, 빗소리와 음악에서 해당 대역을 실시간으로 감쇄하여 귀의 긴장과 청각 피로를 부드럽게 덜어줍니다.
+          </p>
+        </div>
+
+        <!-- 1. Pitch Matcher Card -->
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <span data-i18n="pitchStep1" class="text-xs font-bold text-primary">1단계: 내 이명 주파수 맞추기</span>
+            <span id="tinnitus-pitch-display" class="text-sm font-mono font-bold text-accent-gold">6,000 Hz</span>
+          </div>
+
+          <input id="tinnitus-pitch-slider" type="range" min="1000" max="12000" step="50" value="6000" class="w-full">
+          <div class="flex justify-between text-[9px] text-on-surface-variant/70 font-mono">
+            <span data-i18n="pitchLow">1,000Hz (저음)</span>
+            <span data-i18n="pitchMid">6,000Hz (매미/고음)</span>
+            <span data-i18n="pitchHigh">12,000Hz (초고음 삐-)</span>
+          </div>
+
+          <button id="tinnitus-test-tone-btn" class="w-full py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-primary text-xs font-bold flex items-center justify-center space-x-1.5 transition-all">
+            <span id="tinnitus-test-icon" class="material-symbols-outlined text-base text-accent-gold">volume_up</span>
+            <span data-i18n="testToneBtn">테스트 톤 듣기</span>
+          </button>
+        </div>
+
+        <!-- 2. Real-time Notch Toggle -->
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm flex items-center justify-between">
+          <div>
+            <div class="flex items-center space-x-1.5">
+              <span class="material-symbols-outlined text-base text-primary">filter_alt</span>
+              <span data-i18n="notchFilterTitle" class="text-xs font-bold text-primary">실시간 노치 필터 (Notch Therapy)</span>
+            </div>
+            <span id="notch-status-text" data-i18n="notchDisabled" class="text-[10px] text-on-surface-variant">비활성화됨</span>
+          </div>
+
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input id="notch-filter-toggle" type="checkbox" class="sr-only peer">
+            <div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white peer-checked:after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+          </label>
+        </div>
+
+            <!-- 3. Residual Relaxation & Continuous Relief Options -->
+        <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 data-i18n="residualTitle" class="text-xs font-bold text-primary">이명 완화 사운드</h3>
+              <p data-i18n="residualDesc" class="text-[10px] text-on-surface-variant">내 이명 주파수에 맞춘 완화 사운드를 재생합니다.</p>
+            </div>
+            <span id="residual-timer-display" class="text-xs font-mono font-bold text-primary">02:00</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <!-- 2-Min Focus Session -->
+            <button id="residual-start-btn" class="py-2.5 px-2 rounded-xl bg-accent-gold text-black text-xs font-bold hover:bg-amber-500 flex items-center justify-center space-x-1 transition-all shadow-xs active:scale-95">
+              <span class="material-symbols-outlined text-sm">timer</span>
+              <span data-i18n="residualStartBtn">2분 집중 세션</span>
+            </button>
+
+            <!-- Continuous Infinity Relief -->
+            <button id="tinnitus-continuous-btn" class="py-2.5 px-2 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/40 text-primary text-xs font-bold flex items-center justify-center space-x-1 transition-all active:scale-95">
+              <span class="material-symbols-outlined text-sm text-accent-gold">all_inclusive</span>
+              <span data-i18n="tinnitusContinuousBtn">연속 무한 재생</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================
+           TAB F: PLAYER (24시간 라디오 앰비언트 비주얼 플레이어)
+           ======================================================== -->
+      <section id="tab-view-player" class="tab-view w-full app-content-padding py-4 flex-col justify-between items-center min-h-[500px] hidden">
+        
+        <div class="text-center mt-2">
+          <span data-i18n="playerRadioTitle" class="text-[10px] font-semibold text-primary uppercase tracking-widest">24H ORGANIC RADIO</span>
+          <h2 data-i18n="playerRadioSub" class="font-headline-lg text-xl font-bold text-primary mt-0.5">자연의 숨결 & 5.35Hz 세타파</h2>
+        </div>
+
+        <!-- Artwork Box -->
+        <div class="w-60 h-60 sm:w-64 sm:h-64 rounded-[32px] bg-surface-container border border-outline-variant/40 shadow-2xl ring-1 ring-black/10 flex flex-col items-center justify-end p-4 my-auto relative overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
+          <div class="relative z-10 text-center text-white">
+            <span class="material-symbols-outlined text-2xl drop-shadow-md text-amber-300 mb-0.5">spa</span>
+            <div data-i18n="appTitle" class="font-headline-lg text-lg font-bold drop-shadow-md tracking-tight">Living Relaxing Sounds</div>
+            <div data-i18n="playerContinuous" class="text-[11px] text-amber-100/90 tracking-wide">24시간 무한 연속 스트리밍</div>
+          </div>
+        </div>
+
+        <div class="w-full max-w-xs space-y-2 mb-2">
+          <div class="p-3 rounded-2xl bg-surface-container border border-outline-variant/30 flex items-center justify-between text-xs">
+            <span data-i18n="sleepTimerTitle" class="text-on-surface-variant font-medium">수면 타이머</span>
+            <span id="timer-status-label" data-i18n="sleepTimerDefault" class="text-primary font-bold font-mono">24시간 연속 재생</span>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+        <!-- 📢 3-A. ADMOB BANNER DOCK (Always perfectly floating right above Mini Player) -->
+    <div id="admob-banner-container" class="absolute bottom-[148px] left-3.5 right-3.5 z-20 transition-all duration-300">
+      <div class="w-full bg-[#fdfaf5]/95 backdrop-blur-md border border-primary/20 rounded-2xl px-3.5 py-2.5 flex items-center justify-between shadow-md">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold border border-primary/20 shrink-0">AD</span>
+          <div class="min-w-0">
+            <p class="text-[11px] font-bold text-primary truncate" data-i18n="adBannerTitle">🌿 소울리프 프리미엄 힐링 사운드</p>
+            <p class="text-[9px] text-on-surface-variant truncate" data-i18n="adBannerSub">잠금화면 재생 중에는 광고가 발생하지 않습니다</p>
+          </div>
+        </div>
+        <button onclick="window.adManager && window.adManager.showAdNoticeModal()" class="px-2.5 py-1 rounded-xl bg-accent-gold/20 text-accent-gold text-[10px] font-bold shrink-0 hover:bg-accent-gold/30 transition-all border border-accent-gold/30">
+          4H 패스
+        </button>
+      </div>
+    </div>
+
+        <!-- 3. FLOATING MINI AUDIO PLAYER (High z-index z-40 and explicit touch handlers) -->
+    <div id="mini-audio-player" class="absolute bottom-[84px] sm:bottom-[90px] left-3.5 right-3.5 z-40 pointer-events-auto opacity-40 transition-opacity duration-300">
+      <div class="bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/40 rounded-2xl shadow-2xl p-2.5 flex items-center justify-between pointer-events-auto">
+        
+        <!-- Info (Click opens mixer tab) -->
+        <div class="flex items-center space-x-2.5 min-w-0 flex-grow cursor-pointer pr-2 pointer-events-auto" onclick="window.openMixerTab && window.openMixerTab()">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 relative overflow-hidden">
+            <span class="material-symbols-outlined text-lg">volume_up</span>
+          </div>
+          <div class="min-w-0 flex-grow">
+            <div id="mini-player-title" data-i18n="miniNoTrack" class="font-headline-lg text-xs font-bold text-primary truncate">
+              선택된 사운드 없음
+            </div>
+            <div id="mini-player-sub" data-i18n="miniSelectPrompt" class="text-[10px] text-on-surface-variant truncate font-sans">
+              사운드를 선택하여 믹싱해 보세요
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls (Stop All & Play/Pause) -->
+        <div class="flex items-center space-x-2 shrink-0 relative z-50 pointer-events-auto">
+          <button id="mini-stop-all-btn" onclick="window.stopNativeAll(event)" title="전체 정지" class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-primary border border-outline-variant/30 flex items-center justify-center transition-all active:scale-90 cursor-pointer pointer-events-auto relative z-50">
+            <span class="material-symbols-outlined text-base pointer-events-none">stop</span>
+          </button>
+          <button id="mini-play-pause-btn" onclick="window.toggleNativePlayPause(event)" title="재생/일시정지" class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg active:scale-90 transition-transform cursor-pointer pointer-events-auto relative z-50">
+            <span id="mini-play-pause-icon" class="material-symbols-outlined text-2xl pointer-events-none">play_arrow</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4. BOTTOM MOBILE NAVIGATION BAR (5 Main Navigation Tabs with Safe Area Inset) -->
+    <nav class="app-bottom-nav absolute bottom-0 left-0 right-0 z-30 bg-surface/95 backdrop-blur-md border-t border-outline-variant/30 flex flex-col justify-between pt-2 pb-3 px-3 shrink-0 shadow-lg" style="min-height: 74px;">
+      
+      <div class="flex items-center justify-around w-full">
+        <!-- Tab 1: Home -->
+        <button data-tab-target="home" class="bottom-nav-item flex flex-col items-center justify-center text-primary font-bold transition-all flex-1 py-1">
+          <span class="material-symbols-outlined text-xl leading-none" style="font-variation-settings: 'FILL' 1;">home</span>
+          <span data-i18n="navHome" class="text-[10px] font-sans mt-0.5 leading-none">홈</span>
+        </button>
+
+        <!-- Tab 2: Mixer -->
+        <button data-tab-target="mixer" class="bottom-nav-item flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all flex-1 py-1">
+          <span class="material-symbols-outlined text-xl leading-none">tune</span>
+          <span data-i18n="navMixer" class="text-[10px] font-sans mt-0.5 leading-none">믹서</span>
+        </button>
+
+        <!-- Tab 3: Sounds -->
+        <button data-tab-target="browse" class="bottom-nav-item flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all flex-1 py-1">
+          <span class="material-symbols-outlined text-xl leading-none">grid_view</span>
+          <span data-i18n="navBrowse" class="text-[10px] font-sans mt-0.5 leading-none">사운드</span>
+        </button>
+
+        <!-- Tab 4: Bookmarks -->
+        <button data-tab-target="bookmarks" class="bottom-nav-item flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all flex-1 py-1">
+          <span class="material-symbols-outlined text-xl leading-none">bookmark</span>
+          <span data-i18n="navBookmarks" class="text-[10px] font-sans mt-0.5 leading-none">즐겨찾기</span>
+        </button>
+
+        <!-- Tab 5: Tinnitus Care -->
+        <button data-tab-target="tinnitus" class="bottom-nav-item flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all flex-1 py-1">
+          <span class="material-symbols-outlined text-xl leading-none">hearing_disabled</span>
+          <span data-i18n="navTinnitus" class="text-[10px] font-sans mt-0.5 leading-none">이명 케어</span>
+        </button>
+      </div>
+
+      <!-- Home Indicator Line -->
+      <div class="w-28 h-1 bg-[#1c1c19]/25 rounded-full mx-auto mt-1.5 mb-0.5 shrink-0"></div>
+
+    </nav>
+
+  </div>
+
+  <!-- 5. SLEEP TIMER MODAL DIALOG -->
+  <div id="sleep-timer-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="w-full max-w-xs bg-surface-container-lowest border border-outline-variant/40 rounded-3xl p-5 shadow-2xl flex flex-col gap-4">
+      <div class="flex justify-between items-center">
+        <h3 data-i18n="sleepTimerModalTitle" class="font-headline-lg text-base font-bold text-primary">수면 타이머 설정</h3>
+        <button id="close-timer-modal-btn" class="text-on-surface-variant hover:text-primary">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+      <p data-i18n="sleepTimerModalDesc" class="text-xs text-on-surface-variant leading-relaxed">
+        시간이 다 되면 마지막 3분에 걸쳐 볼륨이 부드럽게 줄어들며 멈춥니다.
+      </p>
+
+      <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+        <button class="timer-option-btn py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-primary transition-colors" data-minutes="15">15분</button>
+        <button class="timer-option-btn py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-primary transition-colors" data-minutes="30">30분</button>
+        <button class="timer-option-btn py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-primary transition-colors" data-minutes="60">1시간</button>
+        <button class="timer-option-btn py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant/30 text-primary transition-colors" data-minutes="120">2시간</button>
+        <button class="timer-option-btn col-span-2 py-2.5 rounded-xl bg-primary text-white font-bold hover:bg-primary-container transition-colors shadow-sm" data-minutes="0" data-i18n="timerOff">
+          무제한 24시간 재생 (끄기)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. THEME & DESIGN SETTINGS MODAL DIALOG -->
+  <div id="settings-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-surface-container-lowest border border-outline-variant/40 rounded-3xl p-5 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto hide-scrollbar">
+      
+      <!-- Modal Header -->
+      <div class="flex justify-between items-center border-b border-outline-variant/20 pb-2">
+        <div class="flex items-center space-x-2">
+          <span class="material-symbols-outlined text-accent-gold text-xl">palette</span>
+          <h3 data-i18n="settingsModalTitle" class="font-headline-lg text-lg font-bold text-primary">디자인 & 테마 설정</h3>
+        </div>
+        <button id="close-settings-modal-btn" class="text-on-surface-variant hover:text-primary">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+
+      <p data-i18n="settingsModalDesc" class="text-[11px] text-on-surface-variant leading-relaxed -mt-1">
+        원하시는 힐링 분위기에 맞춰 앱의 전체 컬러 테마를 자유롭게 변경하세요.
+      </p>
+
+      <!-- Theme Options Grid (5 Soothing Themes) -->
+      <div class="flex flex-col gap-2.5">
+        
+        <!-- Theme 1: Classic Warm Sand -->
+        <button class="theme-select-card w-full p-3 rounded-2xl border-2 border-accent-gold bg-[#fcf9f4] text-left flex items-center justify-between transition-all hover:scale-[1.01] shadow-xs" data-theme="theme-sand">
+          <div class="flex items-center space-x-3">
+            <div class="w-7 h-7 rounded-full bg-[#5e1700] border-2 border-[#d97706] shrink-0 shadow-xs"></div>
+            <div>
+              <h4 data-i18n="themeSandTitle" class="text-xs font-bold text-[#5e1700]">📜 클래식 성경 샌드 (Classic Sand)</h4>
+              <p data-i18n="themeSandDesc" class="text-[10px] text-[#55423d]">따뜻한 양피지와 테라코타 버건디의 품격</p>
+            </div>
+          </div>
+          <span class="theme-check-icon material-symbols-outlined text-accent-gold text-lg">check_circle</span>
+        </button>
+
+        <!-- Theme 2: Rain & Weather Misty Slate -->
+        <button class="theme-select-card w-full p-3 rounded-2xl border border-outline-variant/30 bg-[#f2f6f9] text-left flex items-center justify-between transition-all hover:scale-[1.01]" data-theme="theme-rain">
+          <div class="flex items-center space-x-3">
+            <div class="w-7 h-7 rounded-full bg-[#2c3e50] border-2 border-[#2563eb] shrink-0 shadow-xs"></div>
+            <div>
+              <h4 data-i18n="themeRainTitle" class="text-xs font-bold text-[#2c3e50]">🌧️ 비 & 날씨 (Misty Slate)</h4>
+              <p data-i18n="themeRainDesc" class="text-[10px] text-[#475569]">차분한 안개와 블루 그레이 빗소리 감성</p>
+            </div>
+          </div>
+          <span class="theme-check-icon material-symbols-outlined text-accent-gold text-lg hidden">check_circle</span>
+        </button>
+
+        <!-- Theme 3: Earth & Forest Green -->
+        <button class="theme-select-card w-full p-3 rounded-2xl border border-outline-variant/30 bg-[#f4f8f3] text-left flex items-center justify-between transition-all hover:scale-[1.01]" data-theme="theme-forest">
+          <div class="flex items-center space-x-3">
+            <div class="w-7 h-7 rounded-full bg-[#1b431e] border-2 border-[#d97706] shrink-0 shadow-xs"></div>
+            <div>
+              <h4 data-i18n="themeForestTitle" class="text-xs font-bold text-[#1b431e]">🌲 숲, 물, 불 (Earth & Forest)</h4>
+              <p data-i18n="themeForestDesc" class="text-[10px] text-[#3d5540]">울창한 딥 포레스트와 따뜻한 모닥불 앰버</p>
+            </div>
+          </div>
+          <span class="theme-check-icon material-symbols-outlined text-accent-gold text-lg hidden">check_circle</span>
+        </button>
+
+        <!-- Theme 4: Zen Bronze & Sandalwood -->
+        <button class="theme-select-card w-full p-3 rounded-2xl border border-outline-variant/30 bg-[#faf5ee] text-left flex items-center justify-between transition-all hover:scale-[1.01]" data-theme="theme-meditation">
+          <div class="flex items-center space-x-3">
+            <div class="w-7 h-7 rounded-full bg-[#78350f] border-2 border-[#b45309] shrink-0 shadow-xs"></div>
+            <div>
+              <h4 data-i18n="themeMeditationTitle" class="text-xs font-bold text-[#78350f]">🧘 명상 & 악기 (Zen Bronze)</h4>
+              <p data-i18n="themeMeditationDesc" class="text-[10px] text-[#6b4d34]">싱잉볼과 사찰의 경건하고 그윽한 브론즈 톤</p>
+            </div>
+          </div>
+          <span class="theme-check-icon material-symbols-outlined text-accent-gold text-lg hidden">check_circle</span>
+        </button>
+
+        <!-- Theme 5: Brainwave Twilight Indigo -->
+        <button class="theme-select-card w-full p-3 rounded-2xl border border-outline-variant/30 bg-[#f4f4fb] text-left flex items-center justify-between transition-all hover:scale-[1.01]" data-theme="theme-brainwave">
+          <div class="flex items-center space-x-3">
+            <div class="w-7 h-7 rounded-full bg-[#312e81] border-2 border-[#6366f1] shrink-0 shadow-xs"></div>
+            <div>
+              <h4 data-i18n="themeBrainwaveTitle" class="text-xs font-bold text-[#312e81]">🧠 뇌파 & 주파수 (Twilight Indigo)</h4>
+              <p data-i18n="themeBrainwaveDesc" class="text-[10px] text-[#4338ca]">5.35Hz 세타파의 신비로운 밤하늘 오로라</p>
+            </div>
+          </div>
+          <span class="theme-check-icon material-symbols-outlined text-accent-gold text-lg hidden">check_circle</span>
+        </button>
+
+      </div>
+
+      <!-- Footer Button -->
+      <button id="apply-settings-btn" data-i18n="confirmBtn" class="w-full py-2.5 rounded-xl bg-primary text-white font-bold text-xs shadow-sm hover:bg-primary-container transition-all active:scale-95">
+        완료
+      </button>
+
+    </div>
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/i18n.js?v=1.5.0"></script>
+  <script src="js/catalog.js?v=1.5.0"></script>
+  <script src="js/tinnitus_engine.js?v=1.5.0"></script>
+  <script src="js/audio_engine.js?v=1.5.0"></script>
+  <script src="js/ad_manager.js?v=1.5.0"></script>
+  <script src="js/app.js?v=1.5.0"></script>
+
+  <!-- 🎁 6-Hour Free Pass Modal -->
+  <div id="ad-pass-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-surface-container-lowest border border-outline-variant/40 rounded-3xl p-6 max-w-sm w-full shadow-2xl flex flex-col items-center text-center animate-scale-up">
+      <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
+        <span class="material-symbols-outlined text-3xl">redeem</span>
+      </div>
+      <h3 data-i18n="adPassModalTitle" class="font-headline-lg text-lg font-bold text-primary mb-1">4시간 무료 힐링 패스 충전</h3>
+      <p data-i18n="adPassModalDesc" class="text-xs text-on-surface-variant leading-relaxed mb-4">짧은 광고 1회를 시청하시면 4시간 동안 모든 105개 사운드를 광고 없이 자유롭게 믹싱하여 들으실 수 있습니다.</p>
+      <div class="w-full space-y-2">
+        <button id="ad-watch-btn" class="w-full py-3 rounded-2xl bg-primary text-white font-bold text-xs shadow-md hover:bg-primary-container flex items-center justify-center space-x-1.5 active:scale-95 transition-all"><span class="material-symbols-outlined text-sm">play_circle</span><span data-i18n="adWatchBtn">15초 광고 보고 4시간 충전</span></button>
+        <button onclick="document.getElementById('ad-pass-modal').classList.add('hidden'); document.getElementById('ad-pass-modal').classList.remove('flex');" data-i18n="adNextTime" class="w-full py-2 text-xs text-on-surface-variant/70 hover:text-on-surface font-medium">다음에 하기</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

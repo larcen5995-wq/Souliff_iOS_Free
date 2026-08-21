@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@300;400;500;600;700&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* =========================================================================
+   1. Dynamic Theme Palettes (Stitch Serene Sanctuary System)
+   ========================================================================= */
+
+:root, body.theme-sand {
+  /* 📜 Default: Classic Warm Sand */
+  --bg-sand: #fcf9f4;
+  --surface-lowest: #ffffff;
+  --surface-low: #f6f3ee;
+  --surface-mid: #f0ede8;
+  --surface-high: #ebe8e3;
+  --surface-highest: #e5e2dd;
+  --primary-terracotta: #7c2d12;
+  --primary-dark: #5e1700;
+  --secondary-rust: #9b4500;
+  --accent-gold: #d97706;
+  --text-charcoal: #1c1c19;
+  --text-muted: #55423d;
+  --outline-subtle: #dcc1b9;
+  --active-border-color: #d97706;
+}
+
+/* 🌧️ Theme 1: Rain & Weather (Misty Slate) */
+body.theme-rain {
+  --bg-sand: #f2f6f9;
+  --surface-lowest: #ffffff;
+  --surface-low: #e6edf3;
+  --surface-mid: #dce5ec;
+  --surface-high: #d2dce4;
+  --surface-highest: #c8d3dc;
+  --primary-terracotta: #2c3e50;
+  --primary-dark: #1a252f;
+  --secondary-rust: #34495e;
+  --accent-gold: #2563eb;
+  --text-charcoal: #0f172a;
+  --text-muted: #475569;
+  --outline-subtle: #cbd5e1;
+  --active-border-color: #2563eb;
+}
+
+/* 🌲 Theme 2: Earth & Elements (Deep Forest & Warm Amber) */
+body.theme-forest {
+  --bg-sand: #f4f8f3;
+  --surface-lowest: #ffffff;
+  --surface-low: #e8efe5;
+  --surface-mid: #dbe5d7;
+  --surface-high: #cfdcab;
+  --surface-highest: #c3d2bf;
+  --primary-terracotta: #1b431e;
+  --primary-dark: #123015;
+  --secondary-rust: #2d5a27;
+  --accent-gold: #d97706;
+  --text-charcoal: #112213;
+  --text-muted: #3d5540;
+  --outline-subtle: #cad8c6;
+  --active-border-color: #2d5a27;
+}
+
+/* 🧘 Theme 3: Meditation & Sound Bath (Zen Bronze Sandalwood) */
+body.theme-meditation {
+  --bg-sand: #faf5ee;
+  --surface-lowest: #ffffff;
+  --surface-low: #f2ebe0;
+  --surface-mid: #e9dec9;
+  --surface-high: #dfd2bb;
+  --surface-highest: #d5c6ac;
+  --primary-terracotta: #78350f;
+  --primary-dark: #542407;
+  --secondary-rust: #92400e;
+  --accent-gold: #b45309;
+  --text-charcoal: #27170a;
+  --text-muted: #6b4d34;
+  --outline-subtle: #ddcdb6;
+  --active-border-color: #b45309;
+}
+
+/* 🧠 Theme 4: Brainwave & Frequency (Twilight Indigo Frequency) */
+body.theme-brainwave {
+  --bg-sand: #f4f4fb;
+  --surface-lowest: #ffffff;
+  --surface-low: #e9e9f7;
+  --surface-mid: #dedef1;
+  --surface-high: #d2d2eb;
+  --surface-highest: #c6c6e5;
+  --primary-terracotta: #312e81;
+  --primary-dark: #1e1b4b;
+  --secondary-rust: #4338ca;
+  --accent-gold: #6366f1;
+  --text-charcoal: #0f172a;
+  --text-muted: #475569;
+  --outline-subtle: #c7d2fe;
+  --active-border-color: #6366f1;
+}
+
+
+body {
+  font-family: 'Literata', Georgia, serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: var(--sat);
+  padding-bottom: var(--sab);
+  padding-left: var(--sal);
+  padding-right: var(--sar);
+  background-color: var(--bg-sand);
+  color: var(--text-charcoal);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.font-serif-title {
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+.font-sans-ui {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Smartphone Mockup Frame Styling */
+@media (min-width: 640px) {
+  body {
+    background: radial-gradient(circle at center, #24201c 0%, #121110 100%);
+  }
+  .phone-frame {
+    box-shadow: 
+      0 0 0 12px #2b2724,
+      0 0 0 14px #3d3733,
+      0 30px 80px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Dynamic color utility applications */
+.bg-surface-sand {
+  background-color: var(--bg-sand) !important;
+}
+
+.bg-surface-container {
+  background-color: var(--surface-low) !important;
+}
+
+.bg-surface-container-high {
+  background-color: var(--surface-high) !important;
+}
+
+.text-primary {
+  color: var(--primary-dark) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-dark) !important;
+}
+
+.text-accent-gold {
+  color: var(--accent-gold) !important;
+}
+
+.bg-accent-gold {
+  background-color: var(--accent-gold) !important;
+}
+
+.border-accent-gold {
+  border-color: var(--accent-gold) !important;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(252, 249, 244, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 193, 185, 0.4);
+}
+
+/* Custom Scrollbars */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Range Slider Styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--surface-highest);
+  border-radius: 9999px;
+  height: 6px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  transition: transform 0.15s, background 0.3s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: var(--accent-gold);
+}
+
+/* Breath Animation */
+@keyframes breathGlow {
+  0%, 100% {
+    transform: scale(0.96);
+    box-shadow: 0 0 25px rgba(217, 119, 6, 0.2);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 45px rgba(217, 119, 6, 0.55);
+    opacity: 1;
+  }
+}
+
+.animate-breath {
+  animation: breathGlow 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Equalizer Visualizer Bars */
+@keyframes eqBar1 { 0%, 100% { height: 4px; } 50% { height: 18px; } }
+@keyframes eqBar2 { 0%, 100% { height: 16px; } 50% { height: 6px; } }
+@keyframes eqBar3 { 0%, 100% { height: 8px; } 50% { height: 22px; } }
+@keyframes eqBar4 { 0%, 100% { height: 14px; } 50% { height: 10px; } }
+
+.eq-bar-1 { animation: eqBar1 1.1s ease-in-out infinite; }
+.eq-bar-2 { animation: eqBar2 0.9s ease-in-out infinite; }
+.eq-bar-3 { animation: eqBar3 1.3s ease-in-out infinite; }
+.eq-bar-4 { animation: eqBar4 1.0s ease-in-out infinite; }
+
+/* =========================================================================
+   Safe Area & Bezel Margin Enhancements (Top / Bottom / Left / Right)
+   ========================================================================= */
+.app-header {
+  padding-top: max(env(safe-area-inset-top, 0px), 16px);
+  padding-left: max(env(safe-area-inset-left, 0px), 16px);
+  padding-right: max(env(safe-area-inset-right, 0px), 16px);
+}
+
+@media (min-width: 640px) {
+  .app-header {
+    padding-top: 24px; /* Clear phone frame speaker notch */
+  }
+}
+
+.app-bottom-nav {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 16px);
+  padding-left: max(env(safe-area-inset-left, 0px), 14px);
+  padding-right: max(env(safe-area-inset-right, 0px), 14px);
+}
+
+.app-content-padding {
+  padding-left: max(env(safe-area-inset-left, 0px), 16px);
+  padding-right: max(env(safe-area-inset-right, 0px), 16px);
+}
+

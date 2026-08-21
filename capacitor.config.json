@@ -1,0 +1,17 @@
+{
+  "appId": "com.souliff.relaxing.free",
+  "appName": "Souliff",
+  "webDir": "public",
+  "bundledWebRuntime": false,
+  "ios": {
+    "scheme": "Souliff",
+    "handleApplicationURL": true,
+    "allowsLinkPreview": false,
+    "scrollEnabled": false
+  },
+  "plugins": {
+    "AdMob": {
+      "appId": "ca-app-pub-8036094597229084~9200530680"
+    }
+  }
+}
